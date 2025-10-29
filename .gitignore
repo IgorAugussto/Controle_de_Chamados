@@ -1,0 +1,73 @@
+# ======================
+# AMBIENTE PYTHON
+# ======================
+
+# Ambientes virtuais
+venv/
+.env/
+.venv/
+env/
+
+# Cache e compilados
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Logs e relatórios temporários
+*.log
+*.tmp
+*.out
+
+# Arquivos gerados por Jupyter ou Streamlit
+.ipynb_checkpoints/
+.streamlit/
+
+# ======================
+# DADOS E PLANILHAS
+# ======================
+
+# Dados brutos locais (não versionar planilhas com dados reais/sigilosos)
+data/*.xlsx
+data/*.csv
+data/*.xlsm
+data/*.xls
+
+# ======================
+# CREDENCIAIS E CHAVES
+# ======================
+
+# Credenciais e chaves privadas
+*.json
+*.pem
+*.key
+*.crt
+*.p12
+*.env
+
+# ======================
+# SISTEMA / IDEs
+# ======================
+
+# VSCode
+.vscode/
+*.code-workspace
+
+# PyCharm / IntelliJ
+.idea/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# ======================
+# BIBLIOTECAS E PACOTES
+# ======================
+
+# Dependências instaladas (devem ser reinstaladas via requirements.txt)
+*.egg-info/
+build/
+dist/
