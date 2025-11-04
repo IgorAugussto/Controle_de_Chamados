@@ -1,54 +1,63 @@
-# Camada de apresentação (telas, gráficos, componentes)
-# Tudo que é exibido no Streamlit
-
 import streamlit as st
 import plotly.express as px
+import pandas as pd
 
 def mostrar_dashboard(df):
+
+    st.write("### 🧩 Pré-visualização do DataFrame")
+    st.dataframe(df.head(10))
+    st.write("Shape (linhas, colunas):", df.shape)
+    st.write("Colunas:", list(df.columns))
+
     st.title("📊 Dashboard de Chamados")
 
     # --- KPIs ---
     col1, col2, col3 = st.columns(3)
     col1.metric("Chamados Totais", len(df))
-    col2.metric("Abertos", (df["Status"] == "Aberto").sum())
-    col3.metric("Fechados", (df["Status"] == "Fechado").sum())
+    col2.metric("Abertos", (df["status"] == "Aberto").sum())
+    col3.metric("Fechados", (df["status"] == "Fechado").sum())
 
     # --- Filtros ---
     st.sidebar.header("Filtros")
+    
+    st.write("### Linhas após filtros:", len(df))
+
+
+    # 🔧 Removendo valores NaN antes de usar nas opções
+    status_opcoes = sorted(df["status"].dropna().unique())
+    prioridade_opcoes = sorted(df["priority"].dropna().unique())
+
     status_filtro = st.sidebar.selectbox(
-        "Filtrar por Status", ["Todos"] + list(df["Status"].unique())
+        "Filtrar por Status", ["Todos"] + status_opcoes
     )
+
     prioridade_filtro = st.sidebar.multiselect(
-        "Filtrar por Prioridade", df["Prioridade"].unique(), default=df["Prioridade"].unique()
+        "Filtrar por Prioridade",
+        options=prioridade_opcoes,
+        default=prioridade_opcoes  # ✅ agora só valores válidos
     )
 
     if status_filtro != "Todos":
-        df = df[df["Status"] == status_filtro]
-    df = df[df["Prioridade"].isin(prioridade_filtro)]
+        df = df[df["status"] == status_filtro]
+    df = df[df["priority"].isin(prioridade_filtro)]
 
     st.divider()
 
-    # --- Gráfico por Prioridade ---
+    # --- Gráfico por prioridade ---
     fig1 = px.bar(
         df,
-        x="Prioridade",
-        color="Status",
+        x="priority",
+        color="status",
         title="Chamados por Prioridade e Status",
         barmode="group",
         text_auto=True
     )
     st.plotly_chart(fig1, use_container_width=True)
 
-    # --- Gráfico por Tipo de Chamado ---
-    if "Tipo de Chamado" in df.columns:
-        fig2 = px.pie(df, names="Tipo de Chamado", title="Distribuição por Tipo de Chamado")
-        st.plotly_chart(fig2, use_container_width=True)
-
     # --- SLA ---
-    if "Dias Restantes" in df.columns:
-        st.subheader("⏳ Chamados com Prazo Crítico")
-        df_vencendo = df[df["Dias Restantes"] <= 2]
-        st.dataframe(df_vencendo[["ID", "Prioridade", "Status", "Dias Restantes"]])
+    st.subheader("⏳ Chamados com Prazo Crítico (≤ 2 dias)")
+    df_vencendo = df[df["Dias Restantes"] <= 2]
+    st.dataframe(df_vencendo[["id", "priority", "status", "Dias Restantes"]])
 
     # --- Tabela completa ---
     st.subheader("📋 Chamados Recentes")

@@ -1,5 +1,3 @@
-# Arquivo principal que roda o dashboard (equivalente ao Controller)
-
 import streamlit as st
 from services.data_service import carregar_dados, preparar_dados
 from views.dashboard_view import mostrar_dashboard
