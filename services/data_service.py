@@ -1,5 +1,6 @@
 import pandas as pd
-from datetime import datetime
+import streamlit as st
+import pandas as pd
 
 def carregar_dados(caminho_excel: str = "data/Chamados Geral - API Periodo.xlsx") -> pd.DataFrame:
     """Carrega o Excel e trata os dados iniciais"""
@@ -41,3 +42,10 @@ def preparar_dados(df: pd.DataFrame) -> pd.DataFrame:
     )
 
     return df
+
+@st.cache_data
+def carregar_excel(uploaded_file):
+    df_raw = pd.read_excel(uploaded_file)
+    df_raw.columns = df_raw.columns.str.strip().str.replace("Column1.", "", regex=False)
+    df_raw.columns = df_raw.columns.str.title().str.strip()
+    return preparar_dados(df_raw)
