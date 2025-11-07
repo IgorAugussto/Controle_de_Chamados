@@ -52,16 +52,18 @@ Python 3.11
 ## 📁 Estrutura do Projeto
 
 Chamados_Geral_ApoioTech/
-├── app.py                     → arquivo principal (Streamlit)
-├── gerar_dados_ficticios.py   → script que cria os dados 100% fictícios
+├── app.py                        # arquivo principal (Streamlit)
+├── gerar_dados_ficticios.py      # script que gera 2.407 registros 100% fictícios
 ├── teste_portfolio/
 │   └── data/
-│       └── Chamados Geral - API Periodo.xlsx  ← dados fictícios (2407 linhas)
+│       └── Chamados Geral - API Periodo.xlsx
 ├── services/
-│   └── data_service.py        → carregamento e preparação dos dados
+│   └── data_service.py
 ├── views/
-│   └── dashboard_view.py      → todos os gráficos e KPIs
-├── venv/                      → ambiente virtual
+│   └── dashboard_view.py
+├── venv/
+├── requirements.txt
+└── README.md
 
 
 ---
