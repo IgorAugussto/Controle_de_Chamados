@@ -38,32 +38,30 @@ Criar um **dashboard web interativo** para análise rápida de chamados técnico
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## 🚀 Tecnologias Utilizadas
 
-Python 3.11
-´´´├── Streamlit          → interface web
-├── Pandas             → tratamento de dados
-├── Plotly Express     → gráficos interativos
-├── Openpyxl           → leitura do Excel
-└── GitHub + Streamlit Community Cloud → deploy gratuito´´´
-
+| Tecnologia | Uso |
+|------------|-----|
+| **Python 3.11** | Linguagem principal |
+| **Streamlit** | Interface web interativa |
+| **Pandas** | Manipulação e limpeza de dados |
+| **Plotly Express** | Gráficos interativos (barras, pizza-donut) |
+| **Openpyxl** | Leitura de arquivos `.xlsx` |
+| **GitHub + Streamlit Community Cloud** | Versionamento e deploy gratuito |
 ---
 
 ## 📁 Estrutura do Projeto
 
-Chamados_Geral_ApoioTech/
-├── app.py                        # arquivo principal (Streamlit)
-├── gerar_dados_ficticios.py      # script que gera 2.407 registros 100% fictícios
-├── teste_portfolio/
-│   └── data/
-│       └── Chamados Geral - API Periodo.xlsx
-├── services/
-│   └── data_service.py
-├── views/
-│   └── dashboard_view.py
-├── venv/
-├── requirements.txt
-└── README.md
+| Pasta/Arquivo | Descrição |
+|---------------|-----------|
+| **app.py** | Ponto de entrada – carrega dados e exibe o dashboard |
+| **gerar_dados_ficticios.py** | Script que cria 2.407 registros 100% fictícios |
+| **teste_portfolio/data/** | Pasta com o arquivo Excel fictício (`Chamados Geral - API Periodo.xlsx`) |
+| **services/data_service.py** | Funções de carregamento, limpeza e cálculo de SLA |
+| **views/dashboard_view.py** | KPIs, filtros, gráficos e tabelas |
+| **venv/** | Ambiente virtual (não versionado) |
+| **requirements.txt** | Dependências do projeto |
+| **README.md** | Documentação (você está lendo) |
 
 
 ---
