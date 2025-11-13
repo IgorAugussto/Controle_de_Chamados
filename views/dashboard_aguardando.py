@@ -32,7 +32,6 @@ def mostrar_dashboard_aguardando(df):
         return int(match.group(1)) if match else None
 
     # Aplica nas duas colunas
-    df["Dias Restantes PMA"] = df["Dias Restantes PMA"].apply(extrair_dias)
     df["Dias Restantes Geral"] = df["Dias Restantes Geral"].apply(extrair_dias)
 
     # =========================================================
@@ -71,8 +70,7 @@ def mostrar_dashboard_aguardando(df):
 
     if not df_critico.empty:
         tabela = df_critico[[
-            "Id", "Data Criação", "Técnico",
-            "Dias Restantes PMA", "Dias Restantes Geral"
+            "Id", "Data Criação", "Técnico", "Dias Restantes Geral"
         ]].copy()
         tabela["Data Criação"] = pd.to_datetime(tabela["Data Criação"], errors="coerce").dt.strftime("%d/%m/%Y")
         st.dataframe(tabela, use_container_width=True)
@@ -84,8 +82,7 @@ def mostrar_dashboard_aguardando(df):
     # =========================================================
     st.subheader("Todos os Chamados")
     df_todos = df[[
-        "Id", "Data Criação", "Técnico",
-        "Dias Restantes PMA", "Dias Restantes Geral"
+        "Id", "Data Criação", "Técnico", "Dias Restantes Geral"
     ]].copy()
     df_todos["Data Criação"] = pd.to_datetime(df_todos["Data Criação"], errors="coerce").dt.strftime("%d/%m/%Y")
     df_todos = df_todos.sort_values("Id", ascending=False)
