@@ -65,14 +65,11 @@ def carregar_planilha_google(_gc):
 
 # Inicializa conexão com Google Sheets
 def get_google_credentials():
-    scope = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
+    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
     try:
-        creds_dict = st.secrets["credencial/service_account.json"]
+        creds_dict = st.secrets["gcp_service_account"]  # ← AQUI
         creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
     except:
-        if os.path.exists("credentials.json"):
-            creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
-        else:
-            st.error("Credenciais do Google não encontradas!")
-            return None
+        st.error("Credenciais do Google não encontradas! Verifique .streamlit/secrets.toml")
+        return None
     return gspread.authorize(creds)
