@@ -22,16 +22,35 @@ def mostrar_dashboard_aguardando(df):
         st.rerun()
 
     # =========================================================
-    # 3. EXTRAIR DIAS (ROBUSTO)
+    # 3. EXTRAIR DIAS (ATUALIZADO PARA PORTUGUÊS)
     # =========================================================
     def extrair_dias(texto):
-        if pd.isna(texto):
+        """
+        Extrai dias de textos como:
+        - "Dentro do Prazo (2 Dias Restantes)"
+        - "Atrasado (5 Dias)"
+        - "Within deadline (12 days remaining)" (suporta inglês também)
+        """
+        if pd.isna(texto) or texto == "":
             return None
+        
         texto = str(texto).strip()
-        match = re.search(r'\((\d+)\s*days?', texto, re.IGNORECASE)
-        return int(match.group(1)) if match else None
+        
+        # Procura por padrões em PORTUGUÊS: (X Dias) ou (X Dia)
+        match = re.search(r'\((\d+)\s*Dias?\s*(?:Restantes?)?\)', texto, re.IGNORECASE)
+        
+        if match:
+            return int(match.group(1))
+        
+        # Fallback para inglês (caso ainda tenha dados antigos)
+        match = re.search(r'\((\d+)\s*days?\s*(?:remaining)?\)', texto, re.IGNORECASE)
+        
+        if match:
+            return int(match.group(1))
+        
+        return None
 
-    # Aplica nas duas colunas
+    # Aplica a extração
     df["Dias Restantes Geral"] = df["Dias Restantes Geral"].apply(extrair_dias)
 
     # =========================================================
@@ -59,13 +78,12 @@ def mostrar_dashboard_aguardando(df):
         st.info("Nenhum chamado com os técnicos especificados.")
 
     # =========================================================
-    # 5. PRAZO CRÍTICO
+    # 5. PRAZO CRÍTICO (CORRIGIDO - SEM COLUNA PMA)
     # =========================================================
     st.subheader("Chamados com Prazo Crítico")
 
     df_critico = df[
-        (df["Dias Restantes PMA"] <= 2) |
-        (df["Dias Restantes Geral"] <= 2)
+        df["Dias Restantes Geral"] <= 2
     ].copy()
 
     if not df_critico.empty:
